@@ -32,7 +32,7 @@ exports.register = async (req, res, next) => {
       });
 
       return res.status(201).send({
-        message: `create new user`,
+        message: `New user created`,
         result: registerUser,
       });
     }
