@@ -98,20 +98,26 @@ exports.updateUserById = async (req, res, next) => {
     });
     // console.log(checkUserById);
     if (checkUserById !== null) {
-      const updateData = await user.update(
-        {
-          firstname: payload.firstname,
-          lastname: payload.lastname,
-        },
-        {
-          where: { id: req.params.id },
-        }
-      );
-      // console.log(req.user);
-      return res.status(200).send({
-        message: `Update data by ID successfully`,
-        data: updateData.dataValues,
-      });
+      if (Object.keys(payload).length === 0) {
+        return res.status(400).send({
+          message: `body is required, cannot be empty`,
+        });
+      } else {
+        const updateData = await user.update(
+          {
+            firstname: payload.firstname,
+            lastname: payload.lastname,
+          },
+          {
+            where: { id: req.params.id },
+          }
+        );
+        // console.log(req.user);
+        return res.status(200).send({
+          message: `Update data by ID successfully`,
+          data: updateData.dataValues,
+        });
+      }
     } else {
       return res.status(404).send({
         message: `ID Not Found`,
