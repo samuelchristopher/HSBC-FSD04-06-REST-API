@@ -92,17 +92,25 @@ exports.getUserById = async (req, res, next) => {
 
 exports.updateUserById = async (req, res, next) => {
   try {
+    const payload = req.body;
     const checkUserById = await user.findOne({
       where: { id: req.params.id },
     });
     // console.log(checkUserById);
     if (checkUserById !== null) {
-      const data = await user.update({
-        where: { id: req.params.id },
-      });
+      const updateData = await user.update(
+        {
+          firstname: payload.firstname,
+          lastname: payload.lastname,
+        },
+        {
+          where: { id: req.params.id },
+        }
+      );
+      // console.log(req.user);
       return res.status(200).send({
         message: `Update data by ID successfully`,
-        data: data.dataValues,
+        data: updateData.dataValues,
       });
     } else {
       return res.status(404).send({
