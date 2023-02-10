@@ -24,8 +24,8 @@ sequelize
   });
 
 app.use('/', router);
-app.use('/about-me', router);
-app.use('/user', userRoute);
+// app.use('/about-me', router);
+app.use('/users', userRoute);
 app.use('/auth', authRoute);
 
 app.listen(process.env.SERVER_PORT, () => {
