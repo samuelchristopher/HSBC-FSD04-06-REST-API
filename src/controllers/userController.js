@@ -92,11 +92,14 @@ exports.getUserById = async (req, res, next) => {
 
 exports.updateUserById = async (req, res, next) => {
   try {
-    const data = await user.update({
+    const checkUserById = await user.findOne({
       where: { id: req.params.id },
     });
-    // console.log(typeof data);
-    if (data !== null) {
+    // console.log(checkUserById);
+    if (checkUserById !== null) {
+      const data = await user.update({
+        where: { id: req.params.id },
+      });
       return res.status(200).send({
         message: `Update data by ID successfully`,
         data: data.dataValues,
@@ -113,11 +116,14 @@ exports.updateUserById = async (req, res, next) => {
 };
 exports.deleteUserById = async (req, res, next) => {
   try {
-    const data = await user.destroy({
+    const checkUserById = await user.findOne({
       where: { id: req.params.id },
     });
-    // console.log(typeof data);
-    if (data !== null) {
+    // console.log(checkUserById);
+    if (checkUserById !== null) {
+      const data = await user.destroy({
+        where: { id: req.params.id },
+      });
       return res.status(200).send({
         message: `Delete data by ID successfully`,
         data: data.dataValues,
