@@ -1,6 +1,7 @@
 const { user } = require('../models');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const { Op } = require('sequelize');
 
 exports.register = async (req, res, next) => {
   try {
@@ -10,18 +11,31 @@ exports.register = async (req, res, next) => {
     const hashedPass = bcrypt.hashSync(payload.password, 8);
     // console.log('object: >>', hashedPass);
 
-    const registerUser = await user.create({
-      firstname: payload.firstname,
-      lastname: payload.lastname,
-      username: payload.username,
-      email: payload.email,
-      password: hashedPass,
+    const checkUsernameAndEmail = await user.findAndCountAll({
+      where: {
+        [Op.or]: [{ username: payload.username }, { email: payload.email }],
+      },
     });
+    // console.log(checkUsername);
 
-    return res.status(201).send({
-      message: `create new user`,
-      result: registerUser,
-    });
+    if (checkUsernameAndEmail.rows != 0) {
+      return res.status(409).send({
+        message: `Username Or Email Already Exist`,
+      });
+    } else {
+      const registerUser = await user.create({
+        firstname: payload.firstname,
+        lastname: payload.lastname,
+        username: payload.username,
+        email: payload.email,
+        password: hashedPass,
+      });
+
+      return res.status(201).send({
+        message: `create new user`,
+        result: registerUser,
+      });
+    }
   } catch (error) {
     console.error(error);
     return res.status(500).send(error);
