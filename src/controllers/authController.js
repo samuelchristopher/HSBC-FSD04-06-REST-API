@@ -38,29 +38,35 @@ exports.login = async (req, res, next) => {
     });
     // console.log('object: >>', getUser);
 
-    const comparedPassword = bcrypt.compareSync(
-      payload.password,
-      getUser.dataValues.password
-    );
-    // console.log('object: >>', comparedPassword);
-
-    if (comparedPassword === false) {
-      return res.status(400).send({
-        message: `invalid password`,
-      });
-    } else {
-      const token = jwt.sign(
-        {
-          id: getUser.dataValues.id,
-          email: getUser.dataValues.email,
-        },
-        process.env.JWT_KEY,
-        { expiresIn: 3600 }
+    if (getUser !== null) {
+      const comparedPassword = bcrypt.compareSync(
+        payload.password,
+        getUser.dataValues.password
       );
+      // console.log('object: >>', comparedPassword);
 
-      return res.status(400).send({
-        message: `login success`,
-        token: token,
+      if (comparedPassword === false) {
+        return res.status(400).send({
+          message: `Invalid password`,
+        });
+      } else {
+        const token = jwt.sign(
+          {
+            id: getUser.dataValues.id,
+            email: getUser.dataValues.email,
+          },
+          process.env.JWT_KEY,
+          { expiresIn: 3600 }
+        );
+
+        return res.status(200).send({
+          message: `Login success`,
+          token: token,
+        });
+      }
+    } else {
+      return res.status(404).send({
+        message: `Email Not Registered`,
       });
     }
   } catch (error) {
