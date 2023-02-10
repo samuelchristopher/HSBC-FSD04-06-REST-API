@@ -26,6 +26,7 @@ exports.main = (req, res) => {
     '</li>' +
     '<li><code style="background-color:lightgrey;">PUT /users/:id</code> untuk memperbarui data (update) berdasarkan id yang diberikan<ul>' +
     '<li>Jika ID tidak ditemukan akan menghasilkan result <code style="background-color:lightgrey;">status: 404 Not Found; message: ID Not Found</code></li>' +
+    '<li>Jika request body tidak diberikan akan menghasilkan result <code style="background-color:lightgrey;">status: 400 Bad Request; message: body is required, cannot be empty</code></li>' +
     '</ul>' +
     '</li>' +
     '<li><code style="background-color:lightgrey;">DELETE /users/:id</code> untuk menghapus data (delete) berdasarkan id yang diberikan<ul>' +

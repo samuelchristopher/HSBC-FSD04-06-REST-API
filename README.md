@@ -20,6 +20,7 @@ Repository untuk HariSenin Full Stack Developer Bootcamp Batch 4 - tugas REST AP
      - Jika ID tidak ditemukan akan menghasilkan result `status: 404 Not Found; message: ID Not Found`
    - `PUT /users/:id` untuk memperbarui data (update) berdasarkan id yang diberikan
      - Jika ID tidak ditemukan akan menghasilkan result `status: 404 Not Found; message: ID Not Found`
+     - Jika request body tidak diberikan akan menghasilkan result `status: 400 Bad Request; message: body is required, cannot be empty`
    - `DELETE /users/:id` untuk menghapus data (delete) berdasarkan id yang diberikan
      - Jika ID tidak ditemukan akan menghasilkan result `status: 404 Not Found; message: ID Not Found`
    - Jika melakukan koneksi REST API selain paths yang diberikan di atas, akan menghasilkan result `404 Not Found`
